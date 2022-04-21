@@ -15,4 +15,4 @@ EXPOSE 8080
 COPY . .
 # Build the binary.
 RUN go build -o ./out/dist .
-RUN ["./out/dist"]
+CMD ["./out/dist"]
