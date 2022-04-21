@@ -1,12 +1,8 @@
-FROM golang:1.18-alpine
-
-WORKDIR /app
-COPY go.mod .
-COPY go.sum .
-RUN go mod download
-COPY . .
-
-
-RUN go build -v -o main
-
+FROM golang:alpine
+RUN mkdir /app 
+ADD . /app/
+WORKDIR /app 
+RUN go build -o main .
+RUN adduser -S -D -H -h /app appuser
+USER appuser
 CMD ["./main"]
