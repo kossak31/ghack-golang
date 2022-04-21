@@ -1,35 +1,14 @@
-// Sample run-helloworld is a minimal Cloud Run service.
 package main
 
-import (
-	"fmt"
-	"log"
-	"net/http"
-	"os"
-)
+import "github.com/gofiber/fiber/v2"
 
 func main() {
-	log.Print("starting server...")
-	http.HandleFunc("/", handler)
+	app := fiber.New()
 
-	// Determine port for HTTP service.
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-		log.Printf("defaulting to port %s", port)
-	}
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("hello world")
+	})
 
-	// Start HTTP server.
-	log.Printf("listening on port %s", port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
-		log.Fatal(err)
-	}
-}
+	app.Listen("80")
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	name := os.Getenv("NAME")
-	if name == "" {
-		name = "World"
-	}
-	fmt.Fprintf(w, "Hello %s!\n", name)
 }

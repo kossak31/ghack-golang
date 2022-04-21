@@ -1,4 +1,5 @@
-FROM ubuntu:18.04
+FROM golang:1.18-alpine
+
 
 WORKDIR /app
 
