@@ -1,15 +1,18 @@
-FROM golang:1.16-alpine
+FROM golang:alpine
 
+# Create and change to the app directory.
 WORKDIR /app
-
-COPY go.mod ./
-COPY go.sum ./
+# Retrieve application dependencies.
+# This allows the container build to reuse cached dependencies.
+# Expecting to copy go.mod and if present go.sum.
+COPY go.mod .
+COPY go.sum .
 RUN go mod download
+# Copy local code to the container image.
 
-COPY *.go ./
+EXPOSE 8080
 
-RUN go build -o /docker-gs-ping
-
-EXPOSE 80
-
-CMD [ "/docker-gs-ping" ]
+COPY . .
+# Build the binary.
+RUN go build -o ./out/dist .
+RUN ["chmod", "+x", "./out/dist"]
