@@ -11,5 +11,6 @@ COPY *.go ./
 
 RUN CGO_ENABLED=0 go build -o /docker-gs-ping
 
+EXPOSE 80
 
 CMD [ "/docker-gs-ping" ]
